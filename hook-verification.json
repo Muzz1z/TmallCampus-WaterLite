@@ -1,0 +1,112 @@
+{
+  "inputSha256": "0369A1E2DC0820C41036766D7224E97189DF0E2911ECA1669D7EA90E9D50DCF8",
+  "declaredHookCount": 15,
+  "missing": [],
+  "hooks": [
+    {
+      "class": "com.tmall.campus.ad.AdInitJob",
+      "name": "run",
+      "descriptor": "()V",
+      "dex": "classes7.dex",
+      "hasCode": true
+    },
+    {
+      "class": "com.tmall.campus.ad.CampusAdInitJob",
+      "name": "run",
+      "descriptor": "()V",
+      "dex": "classes7.dex",
+      "hasCode": true
+    },
+    {
+      "class": "com.tmall.campus.ad.CampusAd",
+      "name": "getAdid",
+      "descriptor": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Integer;)Ljava/lang/String;",
+      "dex": "classes7.dex",
+      "hasCode": true
+    },
+    {
+      "class": "com.tmall.campus.configcenter.Configuration",
+      "name": "load",
+      "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+      "dex": "classes7.dex",
+      "hasCode": true
+    },
+    {
+      "class": "com.tmall.campus.ui.base.BaseActivity",
+      "name": "onResume",
+      "descriptor": "()V",
+      "dex": "classes7.dex",
+      "hasCode": true
+    },
+    {
+      "class": "com.tmall.campus.launcher.HotSplashActivity",
+      "name": "initView",
+      "descriptor": "()V",
+      "dex": "classes7.dex",
+      "hasCode": true
+    },
+    {
+      "class": "com.tmall.campus.launcher.SplashActivity",
+      "name": "startWork",
+      "descriptor": "()V",
+      "dex": "classes7.dex",
+      "hasCode": true
+    },
+    {
+      "class": "com.tmall.campus.scancode.activity.ToolsCaptureActivity",
+      "name": "showAd",
+      "descriptor": "()V",
+      "dex": "classes7.dex",
+      "hasCode": true
+    },
+    {
+      "class": "com.tmall.campus.scancode.activity.ToolsCaptureActivity",
+      "name": "initGrandPromotion",
+      "descriptor": "()V",
+      "dex": "classes7.dex",
+      "hasCode": true
+    },
+    {
+      "class": "com.tmall.campus.scancode.activity.ToolsCaptureActivity",
+      "name": "loadIconAd",
+      "descriptor": "()V",
+      "dex": "classes7.dex",
+      "hasCode": true
+    },
+    {
+      "class": "com.tmall.campus.scancode.activity.ToolsCaptureActivity",
+      "name": "onCreate",
+      "descriptor": "(Landroid/os/Bundle;)V",
+      "dex": "classes7.dex",
+      "hasCode": true
+    },
+    {
+      "class": "com.tmall.campus.and.main.MainActivity",
+      "name": "isPopupEnable",
+      "descriptor": "()Z",
+      "dex": "classes7.dex",
+      "hasCode": true
+    },
+    {
+      "class": "com.tmall.campus.and.main.MainActivity",
+      "name": "onBackPressed",
+      "descriptor": "()V",
+      "dex": "classes7.dex",
+      "hasCode": true
+    },
+    {
+      "class": "com.tmall.campus.and.main.MainActivity",
+      "name": "onCreate",
+      "descriptor": "(Landroid/os/Bundle;)V",
+      "dex": "classes7.dex",
+      "hasCode": true
+    },
+    {
+      "class": "com.tmall.campus.and.main.MainActivity",
+      "name": "onResume",
+      "descriptor": "()V",
+      "dex": "classes7.dex",
+      "hasCode": true
+    }
+  ]
+}
