@@ -1,8 +1,50 @@
 {
   "inputSha256": "0369A1E2DC0820C41036766D7224E97189DF0E2911ECA1669D7EA90E9D50DCF8",
-  "declaredHookCount": 15,
+  "declaredHookCount": 24,
   "missing": [],
   "hooks": [
+    {
+      "class": "android.taobao.windvane.webview.WVWebViewClient",
+      "name": "onPageFinished",
+      "descriptor": "(Landroid/webkit/WebView;Ljava/lang/String;)V",
+      "dex": "classes.dex",
+      "hasCode": true
+    },
+    {
+      "class": "android.taobao.windvane.webview.WVWebViewClient",
+      "name": "onPageStarted",
+      "descriptor": "(Landroid/webkit/WebView;Ljava/lang/String;Landroid/graphics/Bitmap;)V",
+      "dex": "classes.dex",
+      "hasCode": true
+    },
+    {
+      "class": "android.taobao.windvane.extra.uc.WVUCWebViewClient",
+      "name": "onPageFinished",
+      "descriptor": "(Lcom/uc/webview/export/WebView;Ljava/lang/String;)V",
+      "dex": "classes.dex",
+      "hasCode": true
+    },
+    {
+      "class": "android.taobao.windvane.extra.uc.WVUCWebViewClient",
+      "name": "onPageStarted",
+      "descriptor": "(Lcom/uc/webview/export/WebView;Ljava/lang/String;Landroid/graphics/Bitmap;)V",
+      "dex": "classes.dex",
+      "hasCode": true
+    },
+    {
+      "class": "androidx.fragment.app.FragmentActivity",
+      "name": "onPause",
+      "descriptor": "()V",
+      "dex": "classes.dex",
+      "hasCode": true
+    },
+    {
+      "class": "com.taobao.update.apk.ApkUpdater",
+      "name": "doUpdate",
+      "descriptor": "(Lcom/alibaba/fastjson/JSONObject;ZLjava/lang/String;)Z",
+      "dex": "classes6.dex",
+      "hasCode": true
+    },
     {
       "class": "com.tmall.campus.ad.AdInitJob",
       "name": "run",
@@ -18,6 +60,13 @@
       "hasCode": true
     },
     {
+      "class": "com.tmall.campus.user.LoginManager",
+      "name": "onReceive",
+      "descriptor": "(Landroid/content/Context;Landroid/content/Intent;)V",
+      "dex": "classes7.dex",
+      "hasCode": true
+    },
+    {
       "class": "com.tmall.campus.ad.CampusAd",
       "name": "getAdid",
       "descriptor": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Integer;)Ljava/lang/String;",
@@ -28,6 +77,20 @@
       "class": "com.tmall.campus.configcenter.Configuration",
       "name": "load",
       "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+      "dex": "classes7.dex",
+      "hasCode": true
+    },
+    {
+      "class": "com.tmall.campus.update.ui.UpdateUIConfirmImpl",
+      "name": "alertForConfirm",
+      "descriptor": "(Ljava/lang/String;Lcom/taobao/update/adapter/UserAction;)V",
+      "dex": "classes7.dex",
+      "hasCode": true
+    },
+    {
+      "class": "com.tmall.campus.webview.holder.WebViewHolder",
+      "name": "loadUrl",
+      "descriptor": "(Ljava/lang/String;)V",
       "dex": "classes7.dex",
       "hasCode": true
     },

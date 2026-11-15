@@ -44,19 +44,24 @@ try {
     $dex = Join-Path $build 'dex'
     $assets = Join-Path $build 'assets'
     New-Item -ItemType Directory -Force -Path $classes,$dex,$assets,$OutputDirectory | Out-Null
+    $javaOptions = @('-Djava.io.tmpdir=' + $build)
     Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'xposed_init') -Destination (Join-Path $assets 'xposed_init')
-    & $java -jar $EcjJar -encoding UTF-8 -source 8 -target 8 -classpath ($AndroidJar + ';' + $XposedApiJar) -d $classes (Join-Path $PSScriptRoot 'WaterLite.java')
+    $pageScript = [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'water-page.js'))
+    $escapedScript = $pageScript.Replace('\', '\\').Replace('"', '\"').Replace("`r", '\r').Replace("`n", '\n').Replace("`t", '\t')
+    $generated = Join-Path $build 'WaterPageScript.java'
+    [IO.File]::WriteAllText($generated, ('package local.waterlite.module; final class WaterPageScript { static final String SCRIPT = "' + $escapedScript + '"; }'))
+    & $java @javaOptions -jar $EcjJar -encoding UTF-8 -source 8 -target 8 -classpath ($AndroidJar + ';' + $XposedApiJar) -d $classes (Join-Path $PSScriptRoot 'WaterLite.java') $generated
     if ($LASTEXITCODE -ne 0) { throw 'Java compilation failed.' }
     if (-not (Test-Path -LiteralPath (Join-Path $classes 'local\waterlite\module\WaterLite.class'))) { throw 'Compiled module entry is missing.' }
     $classJar = Join-Path $build 'module-classes.jar'
-    & $jar cf $classJar -C $classes .
+    & $jar ('-J-Djava.io.tmpdir=' + $build) cf $classJar -C $classes .
     if ($LASTEXITCODE -ne 0) { throw 'Class packaging failed.' }
-    & $java -cp $d8 com.android.tools.r8.D8 --min-api 26 --lib $AndroidJar --lib $XposedApiJar --output $dex $classJar
+    & $java @javaOptions -cp $d8 com.android.tools.r8.D8 --min-api 26 --lib $AndroidJar --lib $XposedApiJar --output $dex $classJar
     if ($LASTEXITCODE -ne 0) { throw 'DEX compilation failed.' }
     $unsigned = Join-Path $build 'unsigned.apk'
     & $aapt2 link -o $unsigned -I $AndroidJar --manifest (Join-Path $PSScriptRoot 'AndroidManifest.xml') -A $assets
     if ($LASTEXITCODE -ne 0) { throw 'Manifest packaging failed.' }
-    & $jar uf $unsigned -C $dex classes.dex
+    & $jar ('-J-Djava.io.tmpdir=' + $build) uf $unsigned -C $dex classes.dex
     if ($LASTEXITCODE -ne 0) { throw 'DEX packaging failed.' }
     $keyDirectory = Split-Path -Parent $Keystore
     New-Item -ItemType Directory -Force -Path $keyDirectory | Out-Null
@@ -76,21 +81,21 @@ try {
         if (-not (Test-Path -LiteralPath $localPassword)) { throw 'Set WATERLITE_SIGN_PASS for the selected existing keystore.' }
         $env:WATERLITE_SIGN_PASS = [IO.File]::ReadAllText($localPassword).Trim()
     }
-    $module = Join-Path $OutputDirectory 'WaterLite-Module-0.1.0.apk'
-    & $java -jar $apksigner sign --ks $Keystore --ks-key-alias waterlite --ks-pass env:WATERLITE_SIGN_PASS --out $module $unsigned
+    $module = Join-Path $OutputDirectory 'WaterLite-Module-0.2.1.apk'
+    & $java @javaOptions -jar $apksigner sign --ks $Keystore --ks-key-alias waterlite --ks-pass env:WATERLITE_SIGN_PASS --out $module $unsigned
     if ($LASTEXITCODE -ne 0) { throw 'Module signing failed.' }
-    & $java -jar $apksigner verify --verbose $module
+    & $java @javaOptions -jar $apksigner verify --verbose $module
     if ($LASTEXITCODE -ne 0) { throw 'Module verification failed.' }
     if ($OriginalApk) {
         $patchedDirectory = Join-Path $build 'patched'
         $displayName = -join [char[]]@(0x626b, 0x7801, 0x63a5, 0x6c34)
-        & $java -jar $LspatchJar -m $module -l 2 --name $displayName -k $Keystore $env:WATERLITE_SIGN_PASS waterlite $env:WATERLITE_SIGN_PASS -o $patchedDirectory $OriginalApk
+        & $java @javaOptions -jar $LspatchJar -m $module -l 2 --name $displayName -k $Keystore $env:WATERLITE_SIGN_PASS waterlite $env:WATERLITE_SIGN_PASS -o $patchedDirectory $OriginalApk
         if ($LASTEXITCODE -ne 0) { throw 'Patching failed.' }
         $patchedFiles = @(Get-ChildItem -LiteralPath $patchedDirectory -Filter '*.apk')
         if ($patchedFiles.Count -ne 1) { throw 'Unexpected patch output count.' }
-        $patched = Join-Path $OutputDirectory 'WaterLite-TmallCampus-5.7.2-0.1.0.apk'
+        $patched = Join-Path $OutputDirectory 'WaterLite-TmallCampus-5.7.2-0.2.1.apk'
         Copy-Item -LiteralPath $patchedFiles[0].FullName -Destination $patched
-        & $java -jar $apksigner verify --verbose $patched
+        & $java @javaOptions -jar $apksigner verify --verbose $patched
         if ($LASTEXITCODE -ne 0) { throw 'Patched APK verification failed.' }
         Get-FileHash -LiteralPath $patched -Algorithm SHA256
     }

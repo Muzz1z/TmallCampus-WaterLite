@@ -1,11 +1,12 @@
 .tools/
 .local/
 dist/
+artifacts/
 inputs/
 work/
 original-apk/
 *.apk
-!WaterLite-Module-0.1.0.apk
+!WaterLite-Module-0.2.1.apk
 *.idsig
 *.p12
 *.jks
